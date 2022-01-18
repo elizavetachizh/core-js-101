@@ -183,6 +183,25 @@ function findFirstSingleChar(str) {
     }
   }
   return null;
+
+  // two path
+  // const map = new Map();
+  // for (let i = 0; i < str.length; i + 1) {
+  //   const current = str[i];
+
+  //   if (map.has(current)) {
+  //     map.set(current, map.get(current) + 1);
+  //   } else {
+  //     map.set(current, 1);
+  //   }
+  // }
+
+  // for (let i = 0; i < str.length; i + 1) {
+  //   if (map.get(str[i]) === 1) {
+  //     return i;
+  //   }
+  // }
+  // return -1;
 }
 
 /**
