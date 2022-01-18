@@ -173,23 +173,16 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-  const map = new Map();
-  for (let i = 0; i < str.length; i + 1) {
-    const current = str[i];
-
-    if (map.has(current)) {
-      map.set(current, map.get(current) + 1);
-    } else {
-      map.set(current, 1);
+  // one path
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    const start = str.substring(0, i);
+    const finish = str.substring(i + 1);
+    if (!start.includes(char) && !finish.includes(char)) {
+      return char;
     }
   }
-
-  for (let i = 0; i < str.length; i + 1) {
-    if (map.get(str[i]) === 1) {
-      return str[i];
-    }
-  }
-  return -1;
+  return null;
 }
 
 /**
@@ -404,21 +397,46 @@ function getCommonDirectoryPath(/* pathes */) {
  *
  */
 function getMatrixProduct(m1, m2) {
-  const rowsm1 = m1.length;
-  const colsm1 = m1[0].length;
-  const rowsm2 = m2.length;
-  const colsm2 = m2[0].length;
-  const C = [];
-  if (colsm1 !== rowsm2) return false;
-  for (let i = 0; i < rowsm1; i + 1) C[i] = [];
-  for (let k = 0; k < colsm2; k + 1) {
-    for (let i = 0; i < rowsm1; i + 1) {
-      let t = 0;
-      for (let j = 0; j < rowsm2; j + 1) t += m1[i][j] * m2[j][k];
-      C[i][k] = t;
-    }
+  // one path
+  // const rowsm1 = m1.length;
+  // const colsm1 = m1[0].length;
+  // const rowsm2 = m2.length;
+  // const colsm2 = m2[0].length;
+  // const C = [];
+  // if (colsm1 !== rowsm2) return false;
+  // for (let i = 0; i < rowsm1; i + 1) C[i] = [];
+  // for (let k = 0; k < colsm2; k + 1) {
+  //   for (let i = 0; i < rowsm1; i + 1) {
+  //     let t = 0;
+  //     for (let j = 0; j < rowsm2; j + 1) t += m1[i][j] * m2[j][k];
+  //     C[i][k] = t;
+  //   }
+  // }
+  // return C;
+
+  // two paath
+  const height = m1.length;
+  const width = m2[0].length;
+  const result = new Array(height);
+  for (let i = 0; i < result.length; i += 1) {
+    result[i] = new Array(width);
   }
-  return C;
+
+  const columnMerger = function merger(colNum) {
+    m1.forEach((row, i) => {
+      let tempResult = 0;
+      row.forEach((rowEl, num) => {
+        const colEl = m2[num][colNum];
+        tempResult += rowEl * colEl;
+      });
+      result[i][colNum] = tempResult;
+    });
+  };
+
+  for (let i = 0; i < width; i += 1) {
+    columnMerger(i);
+  }
+  return result;
 }
 
 /**
